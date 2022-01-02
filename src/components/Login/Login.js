@@ -11,13 +11,14 @@ const Login = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
-  //useEfdfect helps to get rid of repeated code in multiple places 
+  //useEffect helps to get rid of repeated code in multiple places 
   //by using useEffect and dependecies this functions executes only when one of the dependecies are changed
   //in our example we moved away setFormIsValid from emailChangeHandler and passwordChangeHandler to useEffect
   //when we use this useEffect function the validation will happen every time when when one of the 
   //dependencies are changed - enteredEmail or enteredPassword
   //useEffect can be used in response to any specific action - when component is loaded or when something is entered in the field etc. 
-  
+  //useEffect runs once when all components are loaded. UseEffects also runs every time when dependecies are re-evaluated 
+  //such as enteredEmail and enteredPassword   
   useEffect(() => {
     setFormIsValid(
       enteredEmail.includes('@') && enteredPassword.trim().length > 6
