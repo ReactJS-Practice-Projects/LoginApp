@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -11,20 +11,25 @@ const Login = (props) => {
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
+  //useEfdfect helps to get rid of repeated code in multiple places 
+  //by using useEffect and dependecies this functions executes only when one of the dependecies are changed
+  //in our example we moved away setFormIsValid from emailChangeHandler and passwordChangeHandler to useEffect
+  //when we use this useEffect function the validation will happen every time when when one of the 
+  //dependencies are changed - enteredEmail or enteredPassword
+  //useEffect can be used in response to any specific action - when component is loaded or when something is entered in the field etc. 
+  
+  useEffect(() => {
+    setFormIsValid(
+      enteredEmail.includes('@') && enteredPassword.trim().length > 6
+    );
+  }, [enteredEmail, enteredPassword]);
+
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
-
-    setFormIsValid(
-      event.target.value.includes('@') && enteredPassword.trim().length > 6
-    );
   };
 
   const passwordChangeHandler = (event) => {
     setEnteredPassword(event.target.value);
-
-    setFormIsValid(
-      event.target.value.trim().length > 6 && enteredEmail.includes('@')
-    );
   };
 
   const validateEmailHandler = () => {
