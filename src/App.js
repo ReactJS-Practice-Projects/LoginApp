@@ -4,13 +4,15 @@ import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import MainHeader from './components/MainHeader/MainHeader';
 
+import AuthContext from './store/auth-context';
+
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //useEffect helps toprevent infinite looop. 
+  //useEffect helps to prevent infinite looop. 
   //if we set isLoggedIn to 1 in the local storage and reload the site this local storage will always be 1 
-  //as a result of it we remove 1 from tehlocal storage in the logout function 
+  //as a result of it we remove 1 from the local storage in the logout function 
   useEffect(() => {
     
     const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
@@ -34,14 +36,20 @@ function App() {
     setIsLoggedIn(false);
   };
 
+  //AuthContect.Provider - we provide this component to all other components and that's why we use (wrap around) it in the main component 
+  //AthContect.Consumer - use this component in components which use it. We do it to prevent of propogating parameters from lower level compoent to upper level  
   return (
-    <React.Fragment>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    <AuthContext.Provider 
+      value={{
+        isLoggedIn: isLoggedIn,
+      }}
+    >
+      <MainHeader onLogout={logoutHandler} />
       <main>
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <Home onLogout={logoutHandler} />}
       </main>
-    </React.Fragment>
+    </AuthContext.Provider>
   );
 }
 
