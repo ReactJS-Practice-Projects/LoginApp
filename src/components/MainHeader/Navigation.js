@@ -4,7 +4,8 @@ import classes from './Navigation.module.css';
 import AuthContext from '../../store/auth-context';
 
 
-const Navigation = (props) => {
+const Navigation = () => {
+  
   const ctx = useContext(AuthContext);
   
   return (
