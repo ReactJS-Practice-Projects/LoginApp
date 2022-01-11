@@ -1,17 +1,21 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useImperativeHandle } from 'react';
 
 import classes from './Input.module.css';
 
 //we use ref hook to reference to the input component so that we can set focus on it if email is invalid
-const Input = (props) => {
+const Input = React.forwardRef((props, ref) => {
   
   const inputRef = useRef();
   
-  //useEffect runs after the component is rendered for the first time
-  useEffect(() => {
+  const activate = () => {
     inputRef.current.focus();
-  }, []);
- 
+  };
+  
+  useImperativeHandle(ref, () => {
+    return{
+      focus: activate
+    };
+  });
 
   return <div
     className={`${classes.control} ${
@@ -29,6 +33,6 @@ const Input = (props) => {
       />
   
   </div>;
-};
+});
 
 export default Input;

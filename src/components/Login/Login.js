@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useContext } from 'react';
+import React, { useState, useEffect, useReducer, useContext, useRef } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -44,6 +44,8 @@ const Login = (props) => {
   
   const authCtx = useContext(AuthContext);
 
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
 
 
   //pull isValid property and store them in variables. It is alias assignment. 
@@ -85,23 +87,20 @@ const Login = (props) => {
     }
     else if (!emailIsValid)
     {
-      
-
+      emailInputRef.current.focus();  
     }   
     else
     {
-
-
+      passwordInputRef.current.focus();
     }
-
-
   };
 
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <Input 
+        <Input
           id="email" 
+          ref={emailInputRef} 
           label="E-Mail" 
           type="email" 
           isValid={emailIsValid} 
@@ -111,6 +110,7 @@ const Login = (props) => {
         />
         <Input 
           id="password" 
+          ref={passwordInputRef} 
           label="Password" 
           type="password" 
           isValid={passwordIsValid} 
