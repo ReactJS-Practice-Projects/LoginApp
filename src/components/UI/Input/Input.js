@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import classes from './Input.module.css';
 
-//we create reusable component and replace all hard coded values with props 
+//we use ref hook to reference to the input component so that we can set focus on it if email is invalid
+const Input = (props) => {
+  
+  const inputRef = useRef();
+  
+  //useEffect runs after the component is rendered for the first time
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+ 
 
-const Input = props => {
   return <div
     className={`${classes.control} ${
       props.isValid === false ? classes.invalid : ''
@@ -12,6 +20,7 @@ const Input = props => {
     >
       <label htmlFor={props.id}>{props.label}</label>
       <input
+        ref={inputRef}
         type={props.type}
         id={props.id}
         value={props.value}
